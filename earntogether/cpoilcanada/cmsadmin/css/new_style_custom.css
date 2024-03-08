@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+body{
+    font-family: 'Poppins', sans-serif!important;
+    background: #e8e8e8 !important;
+}
+.wrapper {
+    padding: 15px;
+    background: #e8e8e8;
+}
+.sidebar-left{
+    background:#186bdf!important;
+    position: fixed!important;
+    min-height: 100vh;
+}
+.sticky-header .logo{
+    background: #ffffff!important;
+}
+
+.panel {
+    box-shadow: 0 0px 9px 0 rgb(0 0 0 / 8%)!important;
+    color:#000000!important;
+    margin-bottom:30px!important;
+    margin-top:10px;
+}
+.panel .timer{
+    font-size:25px;
+    font-weight:600;
+    color:#000000;
+    margin-top:0;
+    margin-top:10px;
+}
+
+.dashboard_card_single{
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 0 17px 0;
+    flex-direction: row-reverse;
+}
+.dashboard_card_single .value {
+    text-align:right!important;
+    padding-right:15px!important;
+}
+.dashboard_card_single .symbol {
+    width: max-content!important;
+}
+
+.dashboard_card_single .symbol i {
+   width: 45px;
+    height: 45px;
+    line-height: 42px;
+    border-radius: 25px;
+    text-align: center;
+    position: absolute;
+    top: -12px;
+    left: 22px;
+}
+.pane1 .dashboard_card_single.icon_1 .symbol i {
+    background: #fe0000;
+    color: #fff;
+}
+.dashboard_card_single.icon_1 .symbol i{
+    background:#664b7d;
+    color:#ffffff;
+}
+.dashboard_card_single.icon_2 .symbol i{
+    background: #fe0000;
+    color: #ffffff;
+}
+.dashboard_card_single.icon_3 .symbol i{
+    background: #ffc71f;
+    color: #ffffff;
+}
+.dashboard_card_single.icon_4 .symbol i{
+    background: #fe0000;
+    color: #ffffff;
+}
+.badge.bg-warning {
+    color: #fff;
+    background-color: #ffc71f;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.drafts2{
+    background: #f1f1f1!important;
+}
+.dashboard_card_single .value {
+    font-weight: 500!important;
+    font-size: 16px;
+}
+
+.panel .drafts2 p{
+    font-size: 15px;
+    font-weight: 600;
+}
+/*.active a,
+.child-list{
+    background-color: #00aafe!important;
+    color:#ffffff!important;
+}*/
+.side-navigation li:hover a{
+    background-color:#186bdf!important;
+    color:#ffffff!important;
+}
+.menu-list.nav-active a{
+    background-color: #003989!important;
+    color:#ffffff!important;
+}
+.side-navigation > li.active > a:hover, .side-navigation > li.active > a:focus, .side-navigation .child-list > li > a:hover, .side-navigation .child-list > li > a:active, .side-navigation .child-list > li > a:focus, .mega-menu ul li ul li a:hover, .weather-widget .weather-info .degree, .weather-widget .weather-info .degree:after, .side-navigation > li.nav-active > a, .side-navigation > li > a:hover, .side-navigation > li > a:active, .side-navigation > li.nav-active > a:after {
+    color: #fff!important;
+    background: #fe0000!important;
+}
+.body-content{
+    background: #e8e8e8!important;
+}
+
+.page-head h3 {
+    font-weight: 600!important;
+}
+.page-head .sub-title {
+    color: #bbb!important;
+}
+
+.text-primary-lt {
+    color: #0782bf!important;
+    font-weight: 600!important;
+    font-size: 20px!important;
+}
+.side-navigation > li > a {
+    color: #fff!important;
+}
+a.ui-state-default {
+    width: 30px;
+    height: 30px;
+    text-align: center!important;
+}
+.mega-men{
+    padding-top: 16px!important;
+    height: 0!important;
+}
+
+
