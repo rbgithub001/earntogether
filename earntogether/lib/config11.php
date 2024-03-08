@@ -1,0 +1,148 @@
+<?php
+ob_start();
+session_start(); 
+header("X-XSS-Protection: 1; mode=block");
+header("X-Content-Type-Options: nosniff");
+header("X-Frame-Options: SAMEORIGIN");
+header("Strict-Transport-Security: max-age=2592000; includeSubDomains"); 
+//header("Content-Security-Policy: upgrade-insecure-requests");
+header("Referrer-Policy: strict-origin-when-cross-origin");
+ini_set("session.cookie_httponly", 1);  
+ini_set( "display_errors", 0); 
+ 
+if($_GET['id']!=''){
+ if(!is_numeric($_GET['id'])){
+	printf('<script>alert("Something went worng");</script>');  
+  printf("<script>location.href='index.php'</script>");
+  exit(); 
+ }	
+	
+} 
+if($_GET['msg']!=''){
+ 
+$string = $_GET['msg'];
+$res = preg_replace("/[^a-zA-Z ]/", "", $string);
+$_GET['msg']=$res;
+ }
+if($_GET['msgs']!=''){
+ 
+$string = $_GET['msgs'];
+$res = preg_replace("/[^a-zA-Z ]/", "", $string);
+$_GET['msgs']=$res;
+ }
+include  'secx.inc.php'; 
+$pagenmae=basename($_SERVER['PHP_SELF']);
+if($pagenmae!='regis2.php' && $pagenmae!='userfinder.php'){
+include  'csrf-magic.php';
+}
+$secx = new Php_secx();
+$secx->full_secx();
+
+
+
+
+error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+@ini_set('display_errors','Off');
+@ini_set('error_reporting',0);
+define('HOSTNAME','localhost');
+define('DB_USERNAME','biutmyat_bitbux');
+define('DB_PASSWORD','Password@!@#$%');
+define('DB_DATABASE','biutmyat_bitbux');
+define('SITE_URL','https://bitbuxatm.com/');
+define('EMAIL','info@bitbuxatm.com');
+define('TABLE_PREFIX','');
+define('FRONTEND_PATH','admin/action_control/');
+define('ADMIN_PATH','action_control/');
+define('CURRENCY','$');
+include('autoload.inc.php');
+
+if(isset($_FILES)){
+foreach($_FILES as $fname => $items ){
+if($_FILES[$fname]['name']!=''){	
+	
+$size=$_FILES[$fname]['size'];
+define ("MAX_SIZE","1024");
+if ($size > (MAX_SIZE*1024))
+{
+  printf('<script>alert("You have exceeded the size limit of 1 MB");</script>');  
+  printf("<script>location.href='$_SERVER[HTTP_REFERER]'</script>");
+  exit();  
+ }
+ 
+              $content =  file_get_contents($_FILES[$fname]["tmp_name"]);
+ 
+             $dis = array('vulnerable','<script>','</script>');
+             for ($j = 0; $j < sizeof($dis); ++$j){
+ 				if(preg_match (',' . $dis[$j] . ',', strtolower($content))){ 				
+				?>
+				 <script>alert("Malicious content found.File not upload");</script>
+  			  <?  
+			   printf("<script>location.href='$_SERVER[HTTP_REFERER]'</script>");
+   exit();
+ 		}
+	} 
+   
+ 
+   $finfo = finfo_open(FILEINFO_MIME_TYPE);
+  
+   $mime = finfo_file($finfo, $_FILES[$fname]['tmp_name']);
+   if($mime != 'image/jpeg' && $mime !='application/pdf' && $mime !='image/png' && $mime !='image/gif') {
+  	 ?>
+   <script>alert("Sorry, only pdf,jpg,png,gif file types allowed");</script>
+   <?php
+   printf("<script>location.href='$_SERVER[HTTP_REFERER]'</script>");
+   exit();
+   }
+      
+    finfo_close($finfo); 
+   }
+  }
+}
+
+function filter($data) {
+     //$data = filter_var($data, FILTER_SANITIZE_STRING);
+	 if(strlen($data) > 100){
+	?>
+  <script type="text/javascript">
+    alert("Maximum Character Allowed 100 only par field.");
+  window.location = "index.php";
+  </script>
+<?php
+	 }
+     $data = strip_tags($data);
+     $data = mysql_real_escape_string($data);
+   	return $data;
+    }
+ 
+	foreach($_POST as $key => $value) {
+	$_POST[$key] = filter($value);
+ } 
+ foreach($_GET as $key => $value) {
+	$_GET[$key] = filter($value);
+ }
+  foreach($_REQUEST as $key => $value) {
+	$_REQUEST[$key] = filter($value);
+ } 
+
+
+?><script>
+ var a=navigator.onLine;
+ if(a){
+  }else{
+  alert('ofline');
+  window.location='errorpage.html';
+  } </script>
+ 
+ <script type="text/javascript">
+        function noBack()
+         {
+             window.history.forward()
+         }
+        noBack();
+        window.onload = noBack;
+        window.onpageshow = function(evt) { if (evt.persisted) noBack() }
+        window.onunload = function() { void (0) }
+    </script>
+	
+	
