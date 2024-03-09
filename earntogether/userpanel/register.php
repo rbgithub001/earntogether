@@ -63,7 +63,7 @@ $fquerysel = mysqli_fetch_array(mysqli_query($GLOBALS["___mysqli_ston"], "select
             x1.transaction_pwd.value = sha256(input1);
         }
     </script>
-    <script type="text/javascript" src="../js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $("#txtNewPassword").blur(function(e) {
@@ -935,7 +935,6 @@ $fquerysel = mysqli_fetch_array(mysqli_query($GLOBALS["___mysqli_ston"], "select
                 },
                 cache: false,
                 success: function(result) {
-                    console.log("result->",result);
                     $("#state").html(result);
                 }
             });

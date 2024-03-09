@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700');
 @import url('../fonts/simple-line-icons/style.css');
-@import url('../fonts/feather/style.css');
+@import url('../fonts/feather/style.min.css');
 
 @import "themify-icons.css";
 
