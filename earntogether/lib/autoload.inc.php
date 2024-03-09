@@ -1,10 +1,12 @@
 <?php
-
-function __autoload($classname) {
-    $filename = "classes/". $classname .".php";
-    include_once($filename);
+function autoloadClass($classname)
+{
+    $filename = "classes/" . $classname . ".php";
+    include_once $filename;
 }
 
+// Register the autoload function
+spl_autoload_register('autoloadClass');
 //create objects of all classes
 //this is mysql class object
 $mxMysql = new Mysql();

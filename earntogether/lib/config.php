@@ -7,8 +7,8 @@ ob_start();
 @ini_set('error_reporting',1);
 
 define('HOSTNAME','localhost');
-define('DB_USERNAME','max233earntogeth_max');
-define('DB_PASSWORD','fR=LiFX,FGQo');
+define('DB_USERNAME','root');
+define('DB_PASSWORD','root');
 
 define('DB_DATABASE','max233earntogeth_db');
 define('SITE_URL','http://103.154.2.116/~max233earntogeth/');
