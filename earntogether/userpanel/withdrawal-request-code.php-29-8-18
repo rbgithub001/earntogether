@@ -1,0 +1,227 @@
+<?php 
+ob_start();
+include("header.php");
+if(isset($_POST['submit'])){
+$rand=rand(0,1000000);
+$wallet_from=$_POST['wallet_from'];
+$sub8=$_POST['subject8'];
+$user_ids=$_POST['id'];
+
+ $password=$_POST['password'];
+
+
+$newcode=mysql_fetch_array(mysql_query("select t_code from user_registration where user_id='".$f['user_id']."'"));
+ 
+
+ 
+      if($newcode['t_code']=='')
+      {
+        header("location:withdraw-request.php?msg=Please enter correct transaction password!");
+        exit;
+      }
+$pwd= $newcode['t_code'].$_SESSION['nonce'];
+  $pwd= hash('sha256',$pwd);
+ 
+  
+ 
+      if($pwd!=$password)
+      {
+        header("location:withdraw-request.php?msg=Please enter correct transaction password!");
+        exit;
+      }
+
+   
+ 	  
+if($pwd==$password)
+{
+
+if($wallet_from=='withdrawal')
+{
+
+
+  $walletfrom=$_POST['walletfrom'];
+        
+         if ($walletfrom=='final_e_wallet') {
+             $wit_table='final_e_wallet';
+             $msg1='Withdrawal Wallet'; 
+             $transaction_charge=10; 
+             $working ="ok";
+         
+         }elseif($walletfrom=='working_e_wallet') {
+            $wit_table='working_e_wallet';
+            $msg1='Working Wallet';
+            $transaction_charge=10;
+            if(date('D') == 'Sat' || date('D') == 'Wed') { 
+              $working ="ok";
+            } else {
+              $working ="Not";
+            }              
+         }elseif ($walletfrom=='roi_e_wallet') {
+            $wit_table='roi_e_wallet';
+            $msg1='ROI Wallet';
+            $transaction_charge=0;
+            $working ="ok";
+         }
+         
+         
+
+if ($working=="ok") {
+
+
+
+$res_reg1=mysql_fetch_array(mysql_query("SELECT * FROM $wit_table WHERE user_id='$user_ids'"));
+$amount1=$res_reg1['amount'];
+$amount=$amount1;
+
+$transaction_charge1=$sub8*$transaction_charge/100;
+$subamounts=$sub8-$transaction_charge1;
+
+$sub1=$_POST['subject1'];
+$sub2=$_POST['subject2'];
+$sub3=$_POST['subject3'];
+$sub4=$_POST['subject4'];
+$sub5=$_POST['subject5'];
+$sub6=$_POST['subject6'];
+$sub7=$_POST['subject7'];
+$sub9=$_POST['subject9'];
+$send_id=$_POST['id'];
+$btcamt=$_POST['btcamt'];
+
+$date=date("Y-m-d");
+if($amount>=$sub8)
+{
+$urls="http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+$selecting=mysql_fetch_array(mysql_query("select * from $wit_table where user_id='$user_ids'"));
+$request_amount1=$selecting['amount']; print_r("<br/>");
+$request_amounts1=$request_amount1-$sub8; print_r("<br/>");
+
+mysql_query("update $wit_table set amount='$request_amounts1' where user_id='$user_ids'");
+
+mysql_query("INSERT INTO `credit_debit` (`id`, `transaction_no`, `user_id`, `credit_amt`, `debit_amt`, `admin_charge`, `receiver_id`, `sender_id`, `receive_date`, `ttype`, `TranDescription`, `Cause`, `Remark`, `invoice_no`, `product_name`, `status`, `ewallet_used_by`,`current_url`) VALUES (NULL, '$rand', '$user_ids', '0', '$sub8', '0', '123456', '$user_ids', '$date', 'Withdrawal Request', 'Withdrawal Request From Admin', '0', 'Withdrawal Request ', '$rand', 'Withdrawal Request', '0', '$msg1','$urls')");
+
+mysql_query("insert into withdraw_request values (NULL,'$rand','$send_id','$sub1','$sub2','$sub3','$sub4','$sub5','$sub6','$sub7','$subamounts','$sub9','0','$date','','','$wit_table','$sub8','$transaction_charge',CURRENT_TIMESTAMP,'$btcamt')");
+
+
+  date_default_timezone_set('Asia/Kolkata');
+$email=$f['email'];
+require '../mailer/PHPMailerAutoload.php';
+
+//Create a new PHPMailer instance
+$mail = new PHPMailer;
+//Tell PHPMailer to use SMTP
+$mail->isSMTP();
+//Enable SMTP debugging
+// 0 = off (for production use)
+// 1 = client messages
+// 2 = client and server messages
+$mail->SMTPDebug = 0;
+
+//Ask for HTML-friendly debug output
+$mail->Debugoutput = 'html';
+
+//Set the hostname of the mail server
+$mail->Host = "mail.smtp2go.com";
+
+//Set the SMTP port number - likely to be 25, 465 or 587
+$mail->Port = 587;
+
+//Whether to use SMTP authentication
+$mail->SMTPAuth = true;
+
+//Username to use for SMTP authentication
+$mail->Username = "uniqueperfectness@gmail.com";
+
+//Password to use for SMTP authentication
+$mail->Password = "Mishra@20";
+
+$mail->SMTPSecure = 'tls';
+
+//Set who the message is to be sent from
+$mail->setFrom('info@bitbuxatm.com', 'BitBuxATM');
+//Set an alternative reply-to address
+$mail->addReplyTo('info@bitbuxatm.com', 'BitBuxATM');
+//Set who the message is to be sent to
+$mail->addAddress($email, 'BitBuxATM');
+//Set the subject line
+$mail->Subject = 'Withdrawal Request';
+//Read an HTML message body from an external file, convert referenced images to embedded,
+//convert HTML into a basic plain-text alternative body
+ $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
+//Replace the plain text body with one created manually
+$mail->Body = '<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Account Credential</title>
+    <link href="https://fonts.googleapis.com/css?family=Expletus+Sans" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+</head>
+
+<body style="margin:0px; padding:0px; font-family: Open Sans, Tahoma, Times, serif; background: rgb(77, 158, 185) none repeat scroll 0% 0%; width: 70%; float: left;">
+    <div class="container" style="width:590px; margin:auto;margin-top:50px;margin-bottom:50px;">
+        <div class="container1" style="background: #fff;width: 100%;float: left;margin-bottom:50px;">
+            <div class="cont" style="width: 490px;float: left;text-align: center;margin: 25px 0px 0px 43px;">
+                <img src="https://bitbuxatm.com/images/logo.png" style="margin:0 0 20px 0;width:300px;  "><br/><br/>
+                
+                <div class="pay-head" style="font-family: Lato;font-weight: 400;color: rgb(72, 72, 72);font-size: 25px;line-height: 35px; margin-top: 13px;">
+                 Hello '.$f["username"].' Thank you!    your withdrawal request has been successfully submitted.
+                </div>
+                <div class="border" style="width: 500px;text-align: left;height: 1px;background-color: #000;float: left;">
+                </div>
+                <div class="txt" style="font-family: Lato,Arial;font-weight: 400;font-size: 15px;line-height: 23px;
+color: rgb(38, 38, 38);width: 100%;margin-top: 24px;">
+                  
+               
+                
+                
+            </div>
+        </div>
+    </div>
+    </div><br/><br/>
+</body>
+
+</html>';
+
+
+
+  $mail->send();
+
+$msg="Request Sent Successfully! Kindly check your email.";
+
+$fetchid=mysql_insert_id();
+
+
+
+header("location:withdraw-request.php?msg=$msg");
+}
+else
+{
+  $msg="Sorry ! Insufficient Balance In Your Ewallet !";
+  header("location:withdraw-request.php?msg=$msg");
+}
+
+}else{
+ $msg="Working wallet withdraw only for wednesday and saturday  !";
+  header("location:withdraw-request.php?msg=$msg");
+
+}//withdraw
+}else{
+ $msg="Working wallet withdraw only for wednesday and saturday  !";
+  header("location:withdraw-request.php?msg=$msg");
+
+}//ok
+
+
+
+}
+else
+{
+   $msg="Sorry ! Wrong Transaction Password!";
+  header("location:withdraw-request.php?msg=$msg");
+}
+
+}
+
+
+?>
